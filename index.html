@@ -3,423 +3,485 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Us ♡</title>
+  <title>Us 🩷</title>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#f43f5e" />
-
-  <!-- iOS home screen -->
+  <meta name="theme-color" content="#ff6b8a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Us ♡" />
+  <meta name="apple-mobile-web-app-title" content="Us 🩷" />
   <link rel="apple-touch-icon" href="icon-192.png" />
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Fonts: Pacifico (display) + Nunito (body) + Caveat (handwritten) -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --rose: #f43f5e;
-      --rose-light: #fda4af;
-      --rose-pale: #fff1f2;
-      --rose-mid: #fecdd3;
-      --mauve: #c084fc;
-      --pink: #f9a8d4;
-      --text: #1c1917;
-      --muted: #78716c;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bot: env(safe-area-inset-bottom, 0px);
+      --pink:       #ff6b8a;
+      --pink-soft:  #ffb5c8;
+      --pink-pale:  #fff0f4;
+      --pink-mid:   #ffd6e3;
+      --lavender:   #c4b5fd;
+      --lav-pale:   #f5f0ff;
+      --peach:      #ffb5a7;
+      --peach-pale: #fff4f2;
+      --yellow:     #fde68a;
+      --mint:       #bbf7d0;
+      --text:       #3d2535;
+      --muted:      #9b7d8a;
+      --white:      #ffffff;
+      --bg:         #fff9fb;
+      --safe-top:   env(safe-area-inset-top, 0px);
+      --safe-bot:   env(safe-area-inset-bottom, 0px);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #fffaf9;
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ─── Floating hearts ─── */
-    #hearts-bg {
+    /* ══ Floating particles ══ */
+    #particles {
       position: fixed; inset: 0;
       pointer-events: none; z-index: 0; overflow: hidden;
     }
-    .heart-float {
-      position: absolute; bottom: -60px;
-      opacity: 0; animation: floatUp linear infinite;
+    .p-float {
+      position: absolute; bottom: -70px;
+      opacity: 0; animation: pUp linear infinite;
+      user-select: none;
     }
-    @keyframes floatUp {
-      0%   { transform: translateY(0) scale(1) rotate(-5deg); opacity: 0; }
-      8%   { opacity: .5; }
-      92%  { opacity: .15; }
-      100% { transform: translateY(-110vh) scale(1.3) rotate(15deg); opacity: 0; }
+    @keyframes pUp {
+      0%   { transform: translateY(0) rotate(-8deg) scale(1); opacity: 0; }
+      6%   { opacity: .6; }
+      88%  { opacity: .2; }
+      100% { transform: translateY(-115vh) rotate(18deg) scale(1.2); opacity: 0; }
     }
 
-    /* ─── HERO ─── */
+    /* ══ Decorative blobs ══ */
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); opacity: .18; pointer-events: none; z-index: 0;
+    }
+
+    /* ══ HERO ══ */
     .hero {
-      position: relative; z-index: 1;
+      position: relative; z-index: 1; overflow: hidden;
       min-height: 100svh;
-      padding: calc(var(--safe-top) + 3rem) 1.25rem calc(var(--safe-bot) + 3rem);
+      padding: calc(var(--safe-top) + 3.5rem) 1.5rem calc(var(--safe-bot) + 4rem);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
-      background: linear-gradient(160deg, #fff1f2 0%, #fffaf9 55%, #fdf4ff 100%);
+      background: linear-gradient(170deg, #fff0f6 0%, #fff9fb 45%, #f5f0ff 100%);
     }
 
-    .badge {
-      display: inline-flex; align-items: center; gap: .4rem;
+    .blob-1 { width: 300px; height: 300px; background: #ffb5c8; top: -60px; left: -80px; }
+    .blob-2 { width: 250px; height: 250px; background: #c4b5fd; bottom: -40px; right: -60px; }
+    .blob-3 { width: 180px; height: 180px; background: #fde68a; top: 40%; left: 60%; }
+
+    /* sticker pill */
+    .sticker-badge {
+      display: inline-flex; align-items: center; gap: .45rem;
       background: white;
-      border: 1.5px solid var(--rose-mid);
+      border: 2px solid var(--pink-mid);
       border-radius: 999px;
-      padding: .38rem 1rem;
-      font-size: .72rem; font-weight: 600;
-      color: var(--rose);
-      letter-spacing: .05em; text-transform: uppercase;
-      margin-bottom: 1.6rem;
-      box-shadow: 0 2px 14px rgba(244,63,94,.1);
+      padding: .4rem 1.1rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: .75rem; font-weight: 800;
+      color: var(--pink);
+      letter-spacing: .03em;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 3px 18px rgba(255,107,138,.15), 4px 4px 0 var(--pink-mid);
+      animation: wiggle 3s ease-in-out infinite;
+    }
+    @keyframes wiggle {
+      0%,100% { transform: rotate(-1.5deg); }
+      50%      { transform: rotate(1.5deg); }
     }
 
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 14vw, 5.5rem);
-      line-height: 1.1; font-weight: 600;
-      background: linear-gradient(135deg, #f43f5e 0%, #c084fc 100%);
+    .hero-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(3.2rem, 15vw, 6rem);
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ff6b8a 0%, #c084fc 60%, #fb923c 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: .8rem;
+      margin-bottom: .9rem;
+      filter: drop-shadow(0 2px 8px rgba(255,107,138,.2));
     }
 
-    .hero .subtitle {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(.95rem, 4vw, 1.2rem);
+    .hero-sub {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.2rem, 5.5vw, 1.6rem);
+      font-weight: 600;
       color: var(--muted);
-      margin-bottom: 2.8rem;
-      max-width: 280px;
-      line-height: 1.5;
+      margin-bottom: 3rem;
+      max-width: 300px; line-height: 1.45;
     }
 
-    /* ─── Counter ─── */
+    /* ══ Counter ══ */
     .counter-wrap {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: .6rem;
-      width: 100%; max-width: 360px;
-      margin-bottom: 3rem;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: .7rem; width: 100%; max-width: 360px;
+      margin-bottom: 2.8rem;
     }
     .counter-card {
       background: white;
-      border-radius: 16px;
-      padding: .9rem .4rem;
+      border-radius: 22px; padding: 1rem .4rem;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(244,63,94,.1), 0 1px 3px rgba(0,0,0,.04);
-      border: 1px solid rgba(244,63,94,.08);
+      box-shadow: 0 4px 0 var(--pink-mid), 0 6px 20px rgba(255,107,138,.1);
+      border: 2px solid var(--pink-mid);
+      transition: transform .15s ease;
     }
+    .counter-card:active { transform: scale(.95) translateY(3px); box-shadow: 0 1px 0 var(--pink-mid); }
     .counter-card .num {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 7vw, 2.2rem);
-      font-weight: 600;
-      background: linear-gradient(135deg, #f43f5e, #c084fc);
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.6rem, 7.5vw, 2.3rem);
+      background: linear-gradient(135deg, #ff6b8a, #c084fc);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1; display: block;
+      line-height: 1.1; display: block;
     }
     .counter-card .label {
-      font-size: .6rem; font-weight: 600;
+      font-family: 'Nunito', sans-serif;
+      font-size: .62rem; font-weight: 800;
       color: var(--muted);
-      text-transform: uppercase; letter-spacing: .07em;
+      text-transform: uppercase; letter-spacing: .08em;
       margin-top: .3rem; display: block;
     }
 
-    /* ─── Add to home screen banner ─── */
-    .add-home-hint {
-      display: flex; align-items: center; gap: .55rem;
+    /* add to home hint */
+    .home-hint {
+      display: flex; align-items: center; gap: .6rem;
       background: white;
-      border: 1.5px solid var(--rose-mid);
-      border-radius: 14px;
-      padding: .7rem 1.1rem;
-      font-size: .78rem; color: var(--muted);
-      box-shadow: 0 2px 12px rgba(244,63,94,.07);
-      max-width: 300px;
-      text-align: left;
+      border: 2px solid var(--pink-mid);
+      border-radius: 18px; padding: .75rem 1.1rem;
+      font-size: .78rem; font-weight: 600; color: var(--muted);
+      box-shadow: 0 3px 0 var(--pink-mid);
+      max-width: 290px; text-align: left;
     }
-    .add-home-hint span { font-size: 1.1rem; }
-    .add-home-hint strong { color: var(--text); }
+    .home-hint .hi { font-size: 1.2rem; }
+    .home-hint strong { color: var(--text); font-weight: 800; }
 
-    .scroll-arrow {
-      position: absolute; bottom: calc(var(--safe-bot) + 1.2rem);
+    .scroll-cue {
+      position: absolute; bottom: calc(var(--safe-bot) + 1.4rem);
       left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: .3rem;
-      color: var(--muted); font-size: .68rem; letter-spacing: .06em;
-      text-transform: uppercase;
-      animation: bob 2s ease-in-out infinite;
+      font-family: 'Caveat', cursive; font-size: .9rem; font-weight: 600;
+      color: var(--pink-soft);
+      animation: bob 2.2s ease-in-out infinite;
     }
     @keyframes bob {
       0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(5px); }
+      50%      { transform: translateX(-50%) translateY(7px); }
     }
 
-    /* ─── Generic section styles ─── */
+    /* ══ Sections ══ */
     .sections { position: relative; z-index: 1; }
 
-    .section-eyebrow {
-      font-size: .7rem; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--rose); margin-bottom: .8rem;
+    .eyebrow {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--pink); margin-bottom: .55rem;
+      letter-spacing: .02em;
     }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.7rem, 7vw, 2.8rem);
-      font-weight: 600; color: var(--text);
-      margin-bottom: 2.8rem; line-height: 1.2;
+    .sec-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.8rem, 7vw, 3rem);
+      color: var(--text); line-height: 1.2;
+      margin-bottom: 2.8rem;
     }
 
-    /* ─── Reasons ─── */
-    .love-section {
-      padding: 5rem 1.25rem;
-      text-align: center;
-      background: white;
+    /* ══ Reasons ══ */
+    .love-sec {
+      padding: 5.5rem 1.4rem;
+      text-align: center; background: white;
+      position: relative; overflow: hidden;
+    }
+    .love-sec::before {
+      content: '';
+      position: absolute; top: -1px; left: 0; right: 0; height: 40px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 0%);
     }
     .reasons-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      max-width: 500px; margin: 0 auto;
+      gap: 1rem; max-width: 480px; margin: 0 auto;
     }
     .reason-card {
-      background: var(--rose-pale);
-      border-radius: 18px; padding: 1.3rem 1rem;
+      border-radius: 24px; padding: 1.4rem 1rem;
       text-align: left;
-      border: 1px solid rgba(244,63,94,.07);
-      transition: transform .22s ease, box-shadow .22s ease;
+      transition: transform .2s ease;
+      border: 2px solid transparent;
+      position: relative; overflow: hidden;
     }
-    .reason-card:active { transform: scale(.97); }
-    .reason-card .icon { font-size: 1.5rem; margin-bottom: .6rem; }
+    .reason-card:active { transform: scale(.95); }
+    .reason-card:nth-child(1) { background: #fff0f4; border-color: var(--pink-mid); box-shadow: 0 4px 0 var(--pink-mid); }
+    .reason-card:nth-child(2) { background: var(--lav-pale); border-color: #ddd6fe; box-shadow: 0 4px 0 #ddd6fe; }
+    .reason-card:nth-child(3) { background: var(--peach-pale); border-color: #ffd5cc; box-shadow: 0 4px 0 #ffd5cc; }
+    .reason-card:nth-child(4) { background: #fffbeb; border-color: #fde68a; box-shadow: 0 4px 0 #fde68a; }
+    .reason-card:nth-child(5) { background: #f0fdf4; border-color: var(--mint); box-shadow: 0 4px 0 var(--mint); }
+    .reason-card:nth-child(6) { background: #fdf4ff; border-color: #e9d5ff; box-shadow: 0 4px 0 #e9d5ff; }
+    .reason-card .icon { font-size: 1.7rem; margin-bottom: .6rem; display: block; }
     .reason-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: .95rem; font-weight: 600;
-      margin-bottom: .35rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: .95rem; font-weight: 800;
+      margin-bottom: .3rem; color: var(--text);
     }
-    .reason-card p { font-size: .78rem; color: var(--muted); line-height: 1.55; }
+    .reason-card p { font-size: .78rem; color: var(--muted); line-height: 1.55; font-weight: 500; }
 
-    /* ─── Timeline ─── */
-    .timeline-section {
-      padding: 5rem 1.25rem;
-      background: linear-gradient(180deg, #fffaf9 0%, #fdf4ff 100%);
-      text-align: center;
+    /* ══ Timeline ══ */
+    .timeline-sec {
+      padding: 5.5rem 1.4rem;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--lav-pale) 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .timeline-sec::before {
+      content: '';
+      position: absolute; top: -1px; left: 0; right: 0; height: 40px;
+      background: white;
+      clip-path: ellipse(55% 100% at 50% 0%);
     }
     .timeline {
-      max-width: 440px; margin: 0 auto;
-      position: relative;
+      max-width: 400px; margin: 0 auto;
+      position: relative; text-align: left;
     }
     .timeline::before {
       content: '';
-      position: absolute; left: 16px; top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--rose-light), var(--mauve));
-      border-radius: 2px;
+      position: absolute; left: 17px; top: 8px; bottom: 8px;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--pink-soft), var(--lavender));
+      border-radius: 3px;
     }
     .t-item {
       display: flex; align-items: flex-start;
-      gap: 1.2rem; margin-bottom: 2rem;
-      text-align: left;
+      gap: 1.1rem; margin-bottom: 2rem;
     }
     .t-dot {
-      width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--rose), var(--mauve));
+      width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--pink), var(--lavender));
       border: 3px solid white;
-      box-shadow: 0 0 0 3px rgba(244,63,94,.15);
-      margin-top: .35rem; margin-left: 10px;
+      box-shadow: 0 0 0 3px rgba(255,107,138,.2), 0 2px 8px rgba(255,107,138,.3);
+      margin-top: .5rem; margin-left: 10px;
     }
     .t-content {
       flex: 1; background: white;
-      border-radius: 16px; padding: 1rem 1.1rem;
-      box-shadow: 0 3px 16px rgba(0,0,0,.06);
-      border: 1px solid rgba(244,63,94,.07);
+      border-radius: 20px; padding: 1.1rem 1.2rem;
+      border: 2px solid var(--pink-mid);
+      box-shadow: 0 4px 0 var(--pink-mid);
     }
     .t-date {
-      font-size: .68rem; font-weight: 600;
-      color: var(--rose); letter-spacing: .07em;
-      text-transform: uppercase; margin-bottom: .3rem;
+      font-family: 'Caveat', cursive;
+      font-size: .95rem; font-weight: 700;
+      color: var(--pink); margin-bottom: .25rem; display: block;
     }
     .t-content h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: .95rem; font-weight: 600; margin-bottom: .25rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem; font-weight: 800; margin-bottom: .25rem;
     }
-    .t-content p { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+    .t-content p { font-size: .8rem; color: var(--muted); line-height: 1.55; font-weight: 500; }
 
-    /* ─── Promise ─── */
-    .promise-section {
-      padding: 5.5rem 1.5rem;
+    /* ══ Promise ══ */
+    .promise-sec {
+      padding: 6rem 1.5rem;
       text-align: center; background: white;
+      position: relative; overflow: hidden;
     }
-    .promise-quote { max-width: 460px; margin: 0 auto; }
-    .quote-mark {
-      font-family: 'Playfair Display', serif;
-      font-size: 4rem; line-height: .4;
-      color: var(--rose-mid); margin-bottom: 1rem; display: block;
+    .promise-sec::before {
+      content: '';
+      position: absolute; top: -1px; left: 0; right: 0; height: 40px;
+      background: var(--lav-pale);
+      clip-path: ellipse(55% 100% at 50% 0%);
     }
-    .promise-quote blockquote {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(1.1rem, 5vw, 1.45rem);
-      line-height: 1.7; color: var(--text);
-      margin-bottom: 1.8rem;
+    .promise-card {
+      max-width: 460px; margin: 0 auto;
+      background: linear-gradient(145deg, #fff0f6, #f5f0ff);
+      border: 2px solid var(--pink-mid);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 6px 0 var(--pink-mid), 0 12px 40px rgba(255,107,138,.1);
+    }
+    .big-heart {
+      font-size: 3rem; display: block; margin-bottom: 1.2rem;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.2); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.1); }
+      56%      { transform: scale(1); }
+    }
+    .promise-card blockquote {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.25rem, 5.5vw, 1.65rem);
+      font-weight: 600;
+      line-height: 1.65; color: var(--text);
+      margin-bottom: 1.6rem;
     }
     .promise-sig {
-      font-size: .8rem; color: var(--muted);
-      display: flex; align-items: center; justify-content: center; gap: .5rem;
-    }
-    .promise-sig::before, .promise-sig::after {
-      content: ''; width: 32px; height: 1px; background: var(--rose-mid);
+      font-family: 'Pacifico', cursive;
+      font-size: 1rem; color: var(--pink);
     }
 
-    /* ─── Footer ─── */
+    /* ══ Footer ══ */
     footer {
       position: relative; z-index: 1;
-      padding: 2rem 1.5rem calc(var(--safe-bot) + 2rem);
+      padding: 2.2rem 1.5rem calc(var(--safe-bot) + 2.2rem);
       text-align: center;
-      font-size: .75rem; color: var(--muted);
-      background: var(--rose-pale);
-      border-top: 1px solid var(--rose-mid);
+      background: var(--pink-pale);
+      border-top: 2px dashed var(--pink-mid);
     }
-    footer span { color: var(--rose); }
+    footer p {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--muted);
+    }
+    footer span { color: var(--pink); }
 
-    /* ─── Fade in ─── */
+    /* ══ Fade in ══ */
     .fade-in {
-      opacity: 0; transform: translateY(22px);
-      transition: opacity .65s ease, transform .65s ease;
+      opacity: 0; transform: translateY(24px) scale(.97);
+      transition: opacity .7s ease, transform .7s ease;
     }
     .fade-in.visible { opacity: 1; transform: none; }
 
-    /* ─── Desktop tweaks ─── */
+    /* ══ Stagger children ══ */
+    .stagger > *:nth-child(1) { transition-delay: 0s; }
+    .stagger > *:nth-child(2) { transition-delay: .1s; }
+    .stagger > *:nth-child(3) { transition-delay: .18s; }
+    .stagger > *:nth-child(4) { transition-delay: .26s; }
+    .stagger > *:nth-child(5) { transition-delay: .34s; }
+    .stagger > *:nth-child(6) { transition-delay: .42s; }
+
+    /* ══ Desktop ══ */
     @media (min-width: 600px) {
-      .reasons-grid { grid-template-columns: repeat(3, 1fr); }
-      .timeline::before { left: 50%; }
-      .t-item { gap: 1.5rem; }
-      .t-item:nth-child(odd) { flex-direction: row-reverse; }
-      .t-item:nth-child(odd) .t-dot { margin-left: 0; margin-right: 10px; }
-      .t-item:nth-child(odd) .t-content { text-align: right; }
-      .t-dot { margin-left: calc(50% - 7px - 1px); }
-      .t-item:nth-child(odd) .t-dot { margin-left: 0; margin-right: calc(50% - 7px - 1px); }
+      .reasons-grid { grid-template-columns: repeat(3, 1fr); max-width: 660px; }
+      .promise-card { padding: 3rem 2.8rem; }
     }
   </style>
 </head>
 <body>
 
-<div id="hearts-bg"></div>
+<div id="particles"></div>
 
-<!-- ── HERO ── -->
+<!-- ══ HERO ══ -->
 <section class="hero">
-  <div class="badge">♡ Since September 14, 2026</div>
-  <h1>3 Weeks<br>of Us</h1>
-  <p class="subtitle">Every minute with you counts.</p>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="sticker-badge">🩷 since september 14, 2026</div>
+
+  <h1 class="hero-title">3 Weeks<br>of Us</h1>
+  <p class="hero-sub">every single minute<br>has been worth it 🌸</p>
 
   <div class="counter-wrap" id="counter"></div>
 
-  <div class="add-home-hint" id="home-hint">
-    <span>📲</span>
-    <div><strong>Add to Home Screen</strong><br>Save this as your widget</div>
+  <div class="home-hint" id="home-hint">
+    <span class="hi">📲</span>
+    <div><strong>Add to Home Screen</strong><br>keep us as your widget!</div>
   </div>
 
-  <div class="scroll-arrow">
-    <span>scroll</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  <div class="scroll-cue">
+    scroll down ↓
   </div>
 </section>
 
 <div class="sections">
 
-  <!-- ── REASONS ── -->
-  <section class="love-section">
-    <p class="section-eyebrow fade-in">The little things</p>
-    <h2 class="section-title fade-in">Why I'm crazy<br>about you</h2>
-    <div class="reasons-grid">
+  <!-- ══ REASONS ══ -->
+  <section class="love-sec">
+    <p class="eyebrow fade-in">✨ the little things</p>
+    <h2 class="sec-title fade-in">why i'm crazy<br>about you</h2>
+    <div class="reasons-grid stagger">
       <div class="reason-card fade-in">
-        <div class="icon">😂</div>
+        <span class="icon">😂</span>
         <h3>You make me laugh</h3>
-        <p>Like actually laugh. The kind that hurts.</p>
+        <p>Like actually laugh. The kind that hurts a little.</p>
       </div>
       <div class="reason-card fade-in">
-        <div class="icon">🫂</div>
+        <span class="icon">🫂</span>
         <h3>You just get it</h3>
-        <p>No explaining needed. You understand.</p>
+        <p>No explaining needed. You just understand.</p>
       </div>
       <div class="reason-card fade-in">
-        <div class="icon">✨</div>
+        <span class="icon">🌸</span>
         <h3>You're different</h3>
-        <p>In every possible way. And I mean that.</p>
+        <p>In every possible way — and I mean that as the biggest compliment.</p>
       </div>
       <div class="reason-card fade-in">
-        <div class="icon">🌙</div>
+        <span class="icon">🌙</span>
         <h3>Late night talks</h3>
-        <p>Hours feel like minutes. Every time.</p>
+        <p>Hours go by and it feels like minutes. Every time.</p>
       </div>
       <div class="reason-card fade-in">
-        <div class="icon">💫</div>
+        <span class="icon">💫</span>
         <h3>You light it up</h3>
-        <p>My whole day. Just by being there.</p>
+        <p>Rooms, moods, my whole day — just by being there.</p>
       </div>
       <div class="reason-card fade-in">
-        <div class="icon">🤝</div>
+        <span class="icon">🤝</span>
         <h3>You're real</h3>
-        <p>No games. Just you, as you are.</p>
+        <p>No games. No pretending. Just you, exactly as you are.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── TIMELINE ── -->
-  <section class="timeline-section">
-    <p class="section-eyebrow fade-in">How it went</p>
-    <h2 class="section-title fade-in">Our first 3 weeks</h2>
+  <!-- ══ TIMELINE ══ -->
+  <section class="timeline-sec">
+    <p class="eyebrow fade-in">🗓️ how it went</p>
+    <h2 class="sec-title fade-in">our first<br>3 weeks</h2>
     <div class="timeline">
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <div class="t-date">Sep 14 · Day 1</div>
-          <h3>It started ♡</h3>
-          <p>We made it official. Everything changed that day.</p>
+          <span class="t-date">sep 14 · day one 🩷</span>
+          <h3>It started</h3>
+          <p>We made it official. That day everything changed.</p>
         </div>
       </div>
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <div class="t-date">Sep 21 · Week 2</div>
+          <span class="t-date">sep 21 · week 2 🌷</span>
           <h3>Getting comfortable</h3>
-          <p>Less nerves, more laughing, more everything.</p>
+          <p>Less nerves, more laughing, more us.</p>
         </div>
       </div>
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <div class="t-date">Sep 28 · Week 3</div>
+          <span class="t-date">sep 28 · week 3 🌙</span>
           <h3>Already a habit</h3>
-          <p>Talking every day doesn't feel new — it just feels right.</p>
+          <p>Talking every day stopped feeling new — it just feels right.</p>
         </div>
       </div>
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <div class="t-date">Oct 5 · 3 Weeks 🎉</div>
-          <h3>Right now</h3>
-          <p>Three weeks in and I'm already the luckiest person.</p>
+          <span class="t-date">oct 5 · 3 weeks 🎉</span>
+          <h3>Right now!</h3>
+          <p>Three weeks in and I'm already the luckiest person ever.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── PROMISE ── -->
-  <section class="promise-section">
-    <div class="promise-quote fade-in">
-      <span class="quote-mark">"</span>
+  <!-- ══ PROMISE ══ -->
+  <section class="promise-sec">
+    <div class="promise-card fade-in">
+      <span class="big-heart">🩷</span>
       <blockquote>
-        I don't know what comes next, but I know I want to figure it out with you.
-        Three weeks is just the beginning — and I can't wait for all of it.
+        "I don't know what comes next, but I know I want to figure it out with you. Three weeks is just the beginning — and I can't wait for the rest of it."
       </blockquote>
       <p class="promise-sig">yours, always</p>
     </div>
@@ -428,19 +490,19 @@
 </div>
 
 <footer>
-  Made with <span>♡</span> just for you &nbsp;·&nbsp; Oct 5, 2026
+  <p>made with <span>♡</span> just for you · oct 5, 2026 🌸</p>
 </footer>
 
 <script>
-  // ── Register service worker (PWA offline)
+  // ── PWA
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
 
-  // ── Live counter — from Sep 14 2026
+  // ── Counter
   const START = new Date('2026-09-14T00:00:00');
   const counterEl = document.getElementById('counter');
-  [['days','Days'],['hours','Hrs'],['mins','Mins'],['secs','Secs']].forEach(([k,l]) => {
+  [['days','days'],['hrs','hrs'],['mins','mins'],['secs','secs']].forEach(([k,l]) => {
     const c = document.createElement('div');
     c.className = 'counter-card';
     c.innerHTML = `<span class="num" id="c-${k}">0</span><span class="label">${l}</span>`;
@@ -453,40 +515,41 @@
     const mins = Math.floor(d / 60);
     const secs = d % 60;
     document.getElementById('c-days').textContent = days;
-    document.getElementById('c-hours') && (document.getElementById('c-hrs') || 0);
     document.getElementById('c-hrs').textContent  = String(hrs).padStart(2,'0');
     document.getElementById('c-mins').textContent = String(mins).padStart(2,'0');
     document.getElementById('c-secs').textContent = String(secs).padStart(2,'0');
   }
   tick(); setInterval(tick, 1000);
 
-  // ── Hide "add to home screen" hint if already installed (standalone)
+  // ── Hide home hint if installed
   if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
     document.getElementById('home-hint').style.display = 'none';
   }
 
-  // ── Floating hearts
-  const bg = document.getElementById('hearts-bg');
-  const em = ['♡','♥','💕','💗','💖','🌸','✨','💫','🩷'];
-  function spawnHeart() {
+  // ── Floating particles
+  const bg = document.getElementById('particles');
+  const em = ['🩷','💕','💖','💗','🌸','✨','💫','🌷','⭐','🌟','💝'];
+  function spawnP() {
     const el = document.createElement('span');
-    el.className = 'heart-float';
+    el.className = 'p-float';
     el.textContent = em[Math.floor(Math.random() * em.length)];
     el.style.left = Math.random() * 100 + 'vw';
-    const dur = 7 + Math.random() * 9;
+    const dur = 7 + Math.random() * 10;
     el.style.animationDuration = dur + 's';
-    el.style.animationDelay    = Math.random() * 3 + 's';
-    el.style.fontSize = (.55 + Math.random() * .85) + 'rem';
+    el.style.animationDelay    = Math.random() * 4 + 's';
+    el.style.fontSize = (.5 + Math.random() * .9) + 'rem';
     bg.appendChild(el);
     setTimeout(() => el.remove(), (dur + 5) * 1000);
   }
-  for (let i = 0; i < 16; i++) spawnHeart();
-  setInterval(spawnHeart, 1500);
+  for (let i = 0; i < 20; i++) spawnP();
+  setInterval(spawnP, 1200);
 
   // ── Scroll fade-in
   const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 </body>
