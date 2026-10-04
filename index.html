@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Us ♡</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f43f5e" />
+
+  <!-- iOS home screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Us ♡" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -14,8 +27,11 @@
       --rose-pale: #fff1f2;
       --rose-mid: #fecdd3;
       --mauve: #c084fc;
+      --pink: #f9a8d4;
       --text: #1c1917;
       --muted: #78716c;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bot: env(safe-area-inset-bottom, 0px);
     }
 
     html { scroll-behavior: smooth; }
@@ -25,516 +41,453 @@
       background: #fffaf9;
       color: var(--text);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Floating hearts background ── */
+    /* ─── Floating hearts ─── */
     #hearts-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
     }
     .heart-float {
-      position: absolute;
-      bottom: -60px;
-      font-size: 1.2rem;
-      opacity: 0;
-      animation: floatUp linear infinite;
+      position: absolute; bottom: -60px;
+      opacity: 0; animation: floatUp linear infinite;
     }
     @keyframes floatUp {
-      0%   { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
-      10%  { opacity: .55; }
-      90%  { opacity: .2; }
-      100% { transform: translateY(-110vh) scale(1.4) rotate(20deg); opacity: 0; }
+      0%   { transform: translateY(0) scale(1) rotate(-5deg); opacity: 0; }
+      8%   { opacity: .5; }
+      92%  { opacity: .15; }
+      100% { transform: translateY(-110vh) scale(1.3) rotate(15deg); opacity: 0; }
     }
 
-    /* ── Hero ── */
+    /* ─── HERO ─── */
     .hero {
-      position: relative;
+      position: relative; z-index: 1;
       min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      padding: calc(var(--safe-top) + 3rem) 1.25rem calc(var(--safe-bot) + 3rem);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       text-align: center;
-      padding: 2rem 1.5rem 4rem;
-      z-index: 1;
-      background: linear-gradient(160deg, #fff1f2 0%, #fffaf9 50%, #fdf4ff 100%);
+      background: linear-gradient(160deg, #fff1f2 0%, #fffaf9 55%, #fdf4ff 100%);
     }
 
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
+      display: inline-flex; align-items: center; gap: .4rem;
       background: white;
       border: 1.5px solid var(--rose-mid);
       border-radius: 999px;
-      padding: .35rem 1rem;
-      font-size: .78rem;
-      font-weight: 500;
+      padding: .38rem 1rem;
+      font-size: .72rem; font-weight: 600;
       color: var(--rose);
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      margin-bottom: 1.8rem;
-      box-shadow: 0 2px 12px rgba(244,63,94,.08);
+      letter-spacing: .05em; text-transform: uppercase;
+      margin-bottom: 1.6rem;
+      box-shadow: 0 2px 14px rgba(244,63,94,.1);
     }
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 8vw, 5.5rem);
-      line-height: 1.12;
-      font-weight: 600;
+      font-size: clamp(3rem, 14vw, 5.5rem);
+      line-height: 1.1; font-weight: 600;
       background: linear-gradient(135deg, #f43f5e 0%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 1rem;
+      margin-bottom: .8rem;
     }
 
     .hero .subtitle {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-size: clamp(.95rem, 4vw, 1.2rem);
       color: var(--muted);
-      margin-bottom: 3rem;
+      margin-bottom: 2.8rem;
+      max-width: 280px;
+      line-height: 1.5;
     }
 
-    /* ── Live counter ── */
+    /* ─── Counter ─── */
     .counter-wrap {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .6rem;
+      width: 100%; max-width: 360px;
+      margin-bottom: 3rem;
     }
     .counter-card {
       background: white;
-      border-radius: 18px;
-      padding: 1.1rem 1.5rem;
-      min-width: 84px;
-      box-shadow: 0 4px 24px rgba(244,63,94,.1), 0 1px 4px rgba(0,0,0,.04);
+      border-radius: 16px;
+      padding: .9rem .4rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(244,63,94,.1), 0 1px 3px rgba(0,0,0,.04);
       border: 1px solid rgba(244,63,94,.08);
     }
     .counter-card .num {
       font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
+      font-size: clamp(1.5rem, 7vw, 2.2rem);
       font-weight: 600;
       background: linear-gradient(135deg, #f43f5e, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1;
-      display: block;
+      line-height: 1; display: block;
     }
     .counter-card .label {
-      font-size: .7rem;
-      font-weight: 500;
+      font-size: .6rem; font-weight: 600;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-top: .3rem;
-      display: block;
+      text-transform: uppercase; letter-spacing: .07em;
+      margin-top: .3rem; display: block;
     }
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .4rem;
-      color: var(--muted);
-      font-size: .75rem;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      animation: bounce 2s ease-in-out infinite;
+    /* ─── Add to home screen banner ─── */
+    .add-home-hint {
+      display: flex; align-items: center; gap: .55rem;
+      background: white;
+      border: 1.5px solid var(--rose-mid);
+      border-radius: 14px;
+      padding: .7rem 1.1rem;
+      font-size: .78rem; color: var(--muted);
+      box-shadow: 0 2px 12px rgba(244,63,94,.07);
+      max-width: 300px;
+      text-align: left;
     }
-    .scroll-hint svg { opacity: .5; }
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(6px); }
+    .add-home-hint span { font-size: 1.1rem; }
+    .add-home-hint strong { color: var(--text); }
+
+    .scroll-arrow {
+      position: absolute; bottom: calc(var(--safe-bot) + 1.2rem);
+      left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .3rem;
+      color: var(--muted); font-size: .68rem; letter-spacing: .06em;
+      text-transform: uppercase;
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(5px); }
     }
 
-    /* ── Sections wrapper ── */
+    /* ─── Generic section styles ─── */
     .sections { position: relative; z-index: 1; }
 
-    /* ── Why I love you ── */
-    .love-section {
-      padding: 6rem 1.5rem;
-      text-align: center;
-      background: white;
-    }
-
     .section-eyebrow {
-      font-size: .75rem;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--rose);
-      margin-bottom: 1rem;
+      font-size: .7rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--rose); margin-bottom: .8rem;
     }
     .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 3.5rem;
-      line-height: 1.2;
+      font-size: clamp(1.7rem, 7vw, 2.8rem);
+      font-weight: 600; color: var(--text);
+      margin-bottom: 2.8rem; line-height: 1.2;
     }
 
+    /* ─── Reasons ─── */
+    .love-section {
+      padding: 5rem 1.25rem;
+      text-align: center;
+      background: white;
+    }
     .reasons-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      max-width: 860px;
-      margin: 0 auto;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 500px; margin: 0 auto;
     }
     .reason-card {
       background: var(--rose-pale);
-      border-radius: 20px;
-      padding: 2rem 1.5rem;
+      border-radius: 18px; padding: 1.3rem 1rem;
       text-align: left;
-      transition: transform .25s ease, box-shadow .25s ease;
       border: 1px solid rgba(244,63,94,.07);
+      transition: transform .22s ease, box-shadow .22s ease;
     }
-    .reason-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(244,63,94,.12);
-    }
-    .reason-card .icon { font-size: 1.8rem; margin-bottom: .9rem; }
+    .reason-card:active { transform: scale(.97); }
+    .reason-card .icon { font-size: 1.5rem; margin-bottom: .6rem; }
     .reason-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: .5rem;
-      color: var(--text);
+      font-size: .95rem; font-weight: 600;
+      margin-bottom: .35rem;
     }
-    .reason-card p {
-      font-size: .88rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+    .reason-card p { font-size: .78rem; color: var(--muted); line-height: 1.55; }
 
-    /* ── Timeline ── */
+    /* ─── Timeline ─── */
     .timeline-section {
-      padding: 6rem 1.5rem;
+      padding: 5rem 1.25rem;
       background: linear-gradient(180deg, #fffaf9 0%, #fdf4ff 100%);
+      text-align: center;
     }
-    .timeline-section .section-title { text-align: center; }
-    .timeline-section .section-eyebrow { text-align: center; }
-
     .timeline {
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 440px; margin: 0 auto;
       position: relative;
     }
     .timeline::before {
       content: '';
-      position: absolute;
-      left: 50%;
-      top: 0; bottom: 0;
+      position: absolute; left: 16px; top: 0; bottom: 0;
       width: 2px;
       background: linear-gradient(to bottom, var(--rose-light), var(--mauve));
-      transform: translateX(-50%);
       border-radius: 2px;
     }
     .t-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-      position: relative;
+      display: flex; align-items: flex-start;
+      gap: 1.2rem; margin-bottom: 2rem;
+      text-align: left;
     }
-    .t-item:nth-child(odd)  { flex-direction: row-reverse; text-align: right; }
-    .t-item:nth-child(even) { text-align: left; }
-
     .t-dot {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 14px; height: 14px;
-      border-radius: 50%;
+      width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
       background: linear-gradient(135deg, var(--rose), var(--mauve));
       border: 3px solid white;
       box-shadow: 0 0 0 3px rgba(244,63,94,.15);
-      flex-shrink: 0;
-      top: .3rem;
+      margin-top: .35rem; margin-left: 10px;
     }
     .t-content {
-      flex: 1;
-      background: white;
-      border-radius: 16px;
-      padding: 1.2rem 1.4rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+      flex: 1; background: white;
+      border-radius: 16px; padding: 1rem 1.1rem;
+      box-shadow: 0 3px 16px rgba(0,0,0,.06);
       border: 1px solid rgba(244,63,94,.07);
     }
     .t-date {
-      font-size: .72rem;
-      font-weight: 600;
-      color: var(--rose);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      margin-bottom: .35rem;
+      font-size: .68rem; font-weight: 600;
+      color: var(--rose); letter-spacing: .07em;
+      text-transform: uppercase; margin-bottom: .3rem;
     }
     .t-content h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: .3rem;
+      font-size: .95rem; font-weight: 600; margin-bottom: .25rem;
     }
-    .t-content p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+    .t-content p { font-size: .8rem; color: var(--muted); line-height: 1.5; }
 
-    /* ── Promise section ── */
+    /* ─── Promise ─── */
     .promise-section {
-      padding: 7rem 1.5rem;
-      text-align: center;
-      background: white;
+      padding: 5.5rem 1.5rem;
+      text-align: center; background: white;
     }
-    .promise-quote {
-      max-width: 580px;
-      margin: 0 auto;
-    }
+    .promise-quote { max-width: 460px; margin: 0 auto; }
     .quote-mark {
       font-family: 'Playfair Display', serif;
-      font-size: 5rem;
-      line-height: .5;
-      color: var(--rose-mid);
-      margin-bottom: 1.2rem;
-      display: block;
+      font-size: 4rem; line-height: .4;
+      color: var(--rose-mid); margin-bottom: 1rem; display: block;
     }
     .promise-quote blockquote {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
-      line-height: 1.65;
-      color: var(--text);
-      margin-bottom: 2rem;
+      font-size: clamp(1.1rem, 5vw, 1.45rem);
+      line-height: 1.7; color: var(--text);
+      margin-bottom: 1.8rem;
     }
     .promise-sig {
-      font-size: .85rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .6rem;
+      font-size: .8rem; color: var(--muted);
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
     }
     .promise-sig::before, .promise-sig::after {
-      content: '';
-      width: 40px; height: 1px;
-      background: var(--rose-mid);
+      content: ''; width: 32px; height: 1px; background: var(--rose-mid);
     }
 
-    /* ── Footer ── */
+    /* ─── Footer ─── */
     footer {
-      position: relative;
-      z-index: 1;
-      padding: 2.5rem 1.5rem;
+      position: relative; z-index: 1;
+      padding: 2rem 1.5rem calc(var(--safe-bot) + 2rem);
       text-align: center;
-      font-size: .8rem;
-      color: var(--muted);
+      font-size: .75rem; color: var(--muted);
       background: var(--rose-pale);
       border-top: 1px solid var(--rose-mid);
     }
     footer span { color: var(--rose); }
 
-    /* ── Fade-in on scroll ── */
+    /* ─── Fade in ─── */
     .fade-in {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s ease, transform .7s ease;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .65s ease, transform .65s ease;
     }
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ─── Desktop tweaks ─── */
+    @media (min-width: 600px) {
+      .reasons-grid { grid-template-columns: repeat(3, 1fr); }
+      .timeline::before { left: 50%; }
+      .t-item { gap: 1.5rem; }
+      .t-item:nth-child(odd) { flex-direction: row-reverse; }
+      .t-item:nth-child(odd) .t-dot { margin-left: 0; margin-right: 10px; }
+      .t-item:nth-child(odd) .t-content { text-align: right; }
+      .t-dot { margin-left: calc(50% - 7px - 1px); }
+      .t-item:nth-child(odd) .t-dot { margin-left: 0; margin-right: calc(50% - 7px - 1px); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating hearts -->
-  <div id="hearts-bg"></div>
+<div id="hearts-bg"></div>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="badge">♡ Since September 14, 2026</div>
-    <h1>3 Weeks<br>of Us</h1>
-    <p class="subtitle">Every minute with you counts — here's the proof.</p>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="badge">♡ Since September 14, 2026</div>
+  <h1>3 Weeks<br>of Us</h1>
+  <p class="subtitle">Every minute with you counts.</p>
 
-    <div class="counter-wrap" id="counter"></div>
+  <div class="counter-wrap" id="counter"></div>
 
-    <div class="scroll-hint">
-      <span>Scroll</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  <div class="add-home-hint" id="home-hint">
+    <span>📲</span>
+    <div><strong>Add to Home Screen</strong><br>Save this as your widget</div>
+  </div>
+
+  <div class="scroll-arrow">
+    <span>scroll</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<div class="sections">
+
+  <!-- ── REASONS ── -->
+  <section class="love-section">
+    <p class="section-eyebrow fade-in">The little things</p>
+    <h2 class="section-title fade-in">Why I'm crazy<br>about you</h2>
+    <div class="reasons-grid">
+      <div class="reason-card fade-in">
+        <div class="icon">😂</div>
+        <h3>You make me laugh</h3>
+        <p>Like actually laugh. The kind that hurts.</p>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="icon">🫂</div>
+        <h3>You just get it</h3>
+        <p>No explaining needed. You understand.</p>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="icon">✨</div>
+        <h3>You're different</h3>
+        <p>In every possible way. And I mean that.</p>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="icon">🌙</div>
+        <h3>Late night talks</h3>
+        <p>Hours feel like minutes. Every time.</p>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="icon">💫</div>
+        <h3>You light it up</h3>
+        <p>My whole day. Just by being there.</p>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="icon">🤝</div>
+        <h3>You're real</h3>
+        <p>No games. Just you, as you are.</p>
+      </div>
     </div>
   </section>
 
-  <div class="sections">
-
-    <!-- Why I love you -->
-    <section class="love-section">
-      <p class="section-eyebrow fade-in">The little things</p>
-      <h2 class="section-title fade-in">Why I'm crazy about you</h2>
-      <div class="reasons-grid">
-        <div class="reason-card fade-in">
-          <div class="icon">😂</div>
-          <h3>You make me laugh</h3>
-          <p>Like actually laugh. The kind that hurts a little.</p>
-        </div>
-        <div class="reason-card fade-in">
-          <div class="icon">🫂</div>
-          <h3>You just get it</h3>
-          <p>No explaining needed. You just understand.</p>
-        </div>
-        <div class="reason-card fade-in">
-          <div class="icon">✨</div>
-          <h3>You're different</h3>
-          <p>In every possible way. And I mean that as the biggest compliment.</p>
-        </div>
-        <div class="reason-card fade-in">
-          <div class="icon">🌙</div>
-          <h3>Late night talks</h3>
-          <p>Hours go by and it feels like minutes. Every time.</p>
-        </div>
-        <div class="reason-card fade-in">
-          <div class="icon">💫</div>
-          <h3>You light things up</h3>
-          <p>Rooms, moods, my whole day. Just by being there.</p>
-        </div>
-        <div class="reason-card fade-in">
-          <div class="icon">🤝</div>
-          <h3>You're real</h3>
-          <p>No games. No pretending. Just you, exactly as you are.</p>
+  <!-- ── TIMELINE ── -->
+  <section class="timeline-section">
+    <p class="section-eyebrow fade-in">How it went</p>
+    <h2 class="section-title fade-in">Our first 3 weeks</h2>
+    <div class="timeline">
+      <div class="t-item fade-in">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-date">Sep 14 · Day 1</div>
+          <h3>It started ♡</h3>
+          <p>We made it official. Everything changed that day.</p>
         </div>
       </div>
-    </section>
-
-    <!-- Timeline -->
-    <section class="timeline-section">
-      <p class="section-eyebrow fade-in">How it went</p>
-      <h2 class="section-title fade-in">Our first 3 weeks</h2>
-      <div class="timeline">
-
-        <div class="t-item fade-in">
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-date">Sep 14 · Week 1</div>
-            <h3>It started ♡</h3>
-            <p>The day everything changed. We made it official and nothing's been the same since.</p>
-          </div>
-          <div style="flex:1"></div>
+      <div class="t-item fade-in">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-date">Sep 21 · Week 2</div>
+          <h3>Getting comfortable</h3>
+          <p>Less nerves, more laughing, more everything.</p>
         </div>
-
-        <div class="t-item fade-in">
-          <div class="t-dot"></div>
-          <div style="flex:1"></div>
-          <div class="t-content">
-            <div class="t-date">Sep 21 · Week 2</div>
-            <h3>Getting comfortable</h3>
-            <p>We started just being us. Less nerves, more laughing, more everything.</p>
-          </div>
-        </div>
-
-        <div class="t-item fade-in">
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-date">Sep 28 · Week 3</div>
-            <h3>Already a habit</h3>
-            <p>Talking every day doesn't feel new anymore — it just feels right.</p>
-          </div>
-          <div style="flex:1"></div>
-        </div>
-
-        <div class="t-item fade-in">
-          <div class="t-dot"></div>
-          <div style="flex:1"></div>
-          <div class="t-content">
-            <div class="t-date">Oct 5 · 3 Weeks 🎉</div>
-            <h3>Right now</h3>
-            <p>Three weeks in and I'm already the luckiest person.</p>
-          </div>
-        </div>
-
       </div>
-    </section>
-
-    <!-- Promise -->
-    <section class="promise-section">
-      <div class="promise-quote fade-in">
-        <span class="quote-mark">"</span>
-        <blockquote>
-          I don't know what comes next, but I know I want to figure it out with you.
-          Three weeks is just the beginning — and I can't wait for the rest.
-        </blockquote>
-        <p class="promise-sig">yours, always</p>
+      <div class="t-item fade-in">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-date">Sep 28 · Week 3</div>
+          <h3>Already a habit</h3>
+          <p>Talking every day doesn't feel new — it just feels right.</p>
+        </div>
       </div>
-    </section>
+      <div class="t-item fade-in">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-date">Oct 5 · 3 Weeks 🎉</div>
+          <h3>Right now</h3>
+          <p>Three weeks in and I'm already the luckiest person.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <!-- ── PROMISE ── -->
+  <section class="promise-section">
+    <div class="promise-quote fade-in">
+      <span class="quote-mark">"</span>
+      <blockquote>
+        I don't know what comes next, but I know I want to figure it out with you.
+        Three weeks is just the beginning — and I can't wait for all of it.
+      </blockquote>
+      <p class="promise-sig">yours, always</p>
+    </div>
+  </section>
 
-  <footer>
-    Made with <span>♡</span> — just for you &nbsp;·&nbsp; Oct 5, 2026
-  </footer>
+</div>
 
-  <script>
-    // ── Start date: Monday Sep 14, 2026
-    const START = new Date('2026-09-14T00:00:00');
+<footer>
+  Made with <span>♡</span> just for you &nbsp;·&nbsp; Oct 5, 2026
+</footer>
 
-    // ── Live counter
-    const counterEl = document.getElementById('counter');
-    const units = [
-      { key: 'days',    label: 'Days'    },
-      { key: 'hours',   label: 'Hours'   },
-      { key: 'minutes', label: 'Minutes' },
-      { key: 'seconds', label: 'Seconds' },
-    ];
-    units.forEach(u => {
-      const card = document.createElement('div');
-      card.className = 'counter-card';
-      card.innerHTML = `<span class="num" id="c-${u.key}">0</span><span class="label">${u.label}</span>`;
-      counterEl.appendChild(card);
-    });
+<script>
+  // ── Register service worker (PWA offline)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
 
-    function tick() {
-      const now = new Date();
-      let diff = Math.floor((now - START) / 1000);
-      const days    = Math.floor(diff / 86400); diff %= 86400;
-      const hours   = Math.floor(diff / 3600);  diff %= 3600;
-      const minutes = Math.floor(diff / 60);
-      const seconds = diff % 60;
-      document.getElementById('c-days').textContent    = days;
-      document.getElementById('c-hours').textContent   = String(hours).padStart(2,'0');
-      document.getElementById('c-minutes').textContent = String(minutes).padStart(2,'0');
-      document.getElementById('c-seconds').textContent = String(seconds).padStart(2,'0');
-    }
-    tick();
-    setInterval(tick, 1000);
+  // ── Live counter — from Sep 14 2026
+  const START = new Date('2026-09-14T00:00:00');
+  const counterEl = document.getElementById('counter');
+  [['days','Days'],['hours','Hrs'],['mins','Mins'],['secs','Secs']].forEach(([k,l]) => {
+    const c = document.createElement('div');
+    c.className = 'counter-card';
+    c.innerHTML = `<span class="num" id="c-${k}">0</span><span class="label">${l}</span>`;
+    counterEl.appendChild(c);
+  });
+  function tick() {
+    let d = Math.floor((Date.now() - START) / 1000);
+    const days = Math.floor(d / 86400); d %= 86400;
+    const hrs  = Math.floor(d / 3600);  d %= 3600;
+    const mins = Math.floor(d / 60);
+    const secs = d % 60;
+    document.getElementById('c-days').textContent = days;
+    document.getElementById('c-hours') && (document.getElementById('c-hrs') || 0);
+    document.getElementById('c-hrs').textContent  = String(hrs).padStart(2,'0');
+    document.getElementById('c-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('c-secs').textContent = String(secs).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
 
-    // ── Floating hearts
-    const bg = document.getElementById('hearts-bg');
-    const emojis = ['♡','♥','💕','💗','💖','🌸','✨','💫'];
-    function spawnHeart() {
-      const el = document.createElement('span');
-      el.className = 'heart-float';
-      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      el.style.left = Math.random() * 100 + 'vw';
-      const dur = 6 + Math.random() * 8;
-      el.style.animationDuration = dur + 's';
-      el.style.animationDelay = Math.random() * 4 + 's';
-      el.style.fontSize = (.6 + Math.random() * .9) + 'rem';
-      bg.appendChild(el);
-      setTimeout(() => el.remove(), (dur + 5) * 1000);
-    }
-    for (let i = 0; i < 18; i++) spawnHeart();
-    setInterval(spawnHeart, 1400);
+  // ── Hide "add to home screen" hint if already installed (standalone)
+  if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+    document.getElementById('home-hint').style.display = 'none';
+  }
 
-    // ── Fade-in on scroll
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  </script>
+  // ── Floating hearts
+  const bg = document.getElementById('hearts-bg');
+  const em = ['♡','♥','💕','💗','💖','🌸','✨','💫','🩷'];
+  function spawnHeart() {
+    const el = document.createElement('span');
+    el.className = 'heart-float';
+    el.textContent = em[Math.floor(Math.random() * em.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    const dur = 7 + Math.random() * 9;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay    = Math.random() * 3 + 's';
+    el.style.fontSize = (.55 + Math.random() * .85) + 'rem';
+    bg.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 5) * 1000);
+  }
+  for (let i = 0; i < 16; i++) spawnHeart();
+  setInterval(spawnHeart, 1500);
+
+  // ── Scroll fade-in
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
