@@ -7,6 +7,8 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
+  <!-- bump sw cache -->
+
   <meta name="theme-color" content="#ff6b8a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -127,28 +129,55 @@
     }
 
     /* ══ Counter ══ */
+    .counter-outer {
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 2.8rem; width: 100%; max-width: 380px;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .counter-hint {
+      font-family: 'Caveat', cursive;
+      font-size: .95rem; font-weight: 600; color: var(--pink-soft);
+      margin-top: .6rem; letter-spacing: .01em;
+      transition: opacity .3s;
+    }
+    .counter-mode-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem; font-weight: 700; color: var(--pink);
+      margin-bottom: .5rem; min-height: 1.4rem;
+      transition: opacity .2s;
+    }
     .counter-wrap {
       display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: .7rem; width: 100%; max-width: 360px;
-      margin-bottom: 2.8rem;
+      gap: .7rem; width: 100%;
+      transition: transform .2s ease, opacity .2s ease;
     }
+    .counter-wrap.pop {
+      animation: counterPop .32s cubic-bezier(.36,1.8,.6,1);
+    }
+    @keyframes counterPop {
+      0%   { transform: scale(.9); opacity: .3; }
+      100% { transform: scale(1);  opacity: 1; }
+    }
+    .counter-wrap.two-col { grid-template-columns: repeat(2, 1fr); }
+    .counter-wrap.one-col { grid-template-columns: 1fr; }
     .counter-card {
       background: white;
       border-radius: 22px; padding: 1rem .4rem;
       text-align: center;
       box-shadow: 0 4px 0 var(--pink-mid), 0 6px 20px rgba(255,107,138,.1);
       border: 2px solid var(--pink-mid);
-      transition: transform .15s ease;
+      transition: transform .15s ease, border-color .3s, box-shadow .3s;
     }
     .counter-card:active { transform: scale(.95) translateY(3px); box-shadow: 0 1px 0 var(--pink-mid); }
     .counter-card .num {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(1.6rem, 7.5vw, 2.3rem);
+      font-size: clamp(1.4rem, 7vw, 2.2rem);
       background: linear-gradient(135deg, #ff6b8a, #c084fc);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
       line-height: 1.1; display: block;
     }
+    .counter-card.big .num { font-size: clamp(2rem, 10vw, 3rem); }
     .counter-card .label {
       font-family: 'Nunito', sans-serif;
       font-size: .62rem; font-weight: 800;
@@ -156,6 +185,15 @@
       text-transform: uppercase; letter-spacing: .08em;
       margin-top: .3rem; display: block;
     }
+    /* mode color themes */
+    .counter-wrap[data-mode="1"] .counter-card { border-color: #ddd6fe; box-shadow: 0 4px 0 #ddd6fe; }
+    .counter-wrap[data-mode="1"] .counter-card .num { background: linear-gradient(135deg,#c084fc,#818cf8); -webkit-background-clip:text; background-clip:text; }
+    .counter-wrap[data-mode="2"] .counter-card { border-color: #fde68a; box-shadow: 0 4px 0 #fde68a; }
+    .counter-wrap[data-mode="2"] .counter-card .num { background: linear-gradient(135deg,#fb923c,#fbbf24); -webkit-background-clip:text; background-clip:text; }
+    .counter-wrap[data-mode="3"] .counter-card { border-color: var(--mint); box-shadow: 0 4px 0 var(--mint); }
+    .counter-wrap[data-mode="3"] .counter-card .num { background: linear-gradient(135deg,#34d399,#06b6d4); -webkit-background-clip:text; background-clip:text; }
+    .counter-wrap[data-mode="4"] .counter-card { border-color: #fda4af; box-shadow: 0 4px 0 #fda4af; }
+    .counter-wrap[data-mode="4"] .counter-card .num { background: linear-gradient(135deg,#ff6b8a,#fb7185); -webkit-background-clip:text; background-clip:text; }
 
     /* add to home hint */
     .home-hint {
@@ -379,12 +417,15 @@
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
 
-  <div class="sticker-badge">🩷 since september 14, 2026</div>
+  <div class="sticker-badge">🩷 since september 15, 2026</div>
 
-  <h1 class="hero-title">3 Weeks<br>of Us</h1>
-  <p class="hero-sub">every single minute<br>has been worth it 🌸</p>
+  <h1 class="hero-title" id="hero-title">loading...</h1>
+  <p class="hero-sub" id="hero-sub">every single minute<br>has been worth it 🌸</p>
 
-  <div class="counter-wrap" id="counter"></div>
+  <div class="counter-outer">
+    <div class="counter-wrap" id="counter"></div>
+    <p class="counter-hint">tap to see more ✨</p>
+  </div>
 
   <div class="home-hint" id="home-hint">
     <span class="hi">📲</span>
@@ -444,7 +485,7 @@
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <span class="t-date">sep 14 · day one 🩷</span>
+          <span class="t-date">sep 15 · day one 🩷</span>
           <h3>It started</h3>
           <p>We made it official. That day everything changed.</p>
         </div>
@@ -452,7 +493,7 @@
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <span class="t-date">sep 21 · week 2 🌷</span>
+          <span class="t-date">sep 22 · week 2 🌷</span>
           <h3>Getting comfortable</h3>
           <p>Less nerves, more laughing, more us.</p>
         </div>
@@ -460,7 +501,7 @@
       <div class="t-item fade-in">
         <div class="t-dot"></div>
         <div class="t-content">
-          <span class="t-date">sep 28 · week 3 🌙</span>
+          <span class="t-date">sep 29 · week 3 🌙</span>
           <h3>Already a habit</h3>
           <p>Talking every day stopped feeling new — it just feels right.</p>
         </div>
@@ -499,27 +540,134 @@
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
 
-  // ── Counter
-  const START = new Date('2026-09-14T00:00:00');
-  const counterEl = document.getElementById('counter');
-  [['days','days'],['hrs','hrs'],['mins','mins'],['secs','secs']].forEach(([k,l]) => {
-    const c = document.createElement('div');
-    c.className = 'counter-card';
-    c.innerHTML = `<span class="num" id="c-${k}">0</span><span class="label">${l}</span>`;
-    counterEl.appendChild(c);
-  });
-  function tick() {
-    let d = Math.floor((Date.now() - START) / 1000);
-    const days = Math.floor(d / 86400); d %= 86400;
-    const hrs  = Math.floor(d / 3600);  d %= 3600;
-    const mins = Math.floor(d / 60);
-    const secs = d % 60;
-    document.getElementById('c-days').textContent = days;
-    document.getElementById('c-hrs').textContent  = String(hrs).padStart(2,'0');
-    document.getElementById('c-mins').textContent = String(mins).padStart(2,'0');
-    document.getElementById('c-secs').textContent = String(secs).padStart(2,'0');
+  // ── Start date: Monday Sep 15, 2026
+  const START = new Date('2026-09-15T00:00:00');
+
+  // ── Dynamic hero title
+  function updateHeroTitle() {
+    const totalSecs = Math.floor((Date.now() - START) / 1000);
+    const totalDays = Math.floor(totalSecs / 86400);
+    const weeks = Math.floor(totalDays / 7);
+    const remDays = totalDays % 7;
+    const el = document.getElementById('hero-title');
+    const sub = document.getElementById('hero-sub');
+    if (weeks === 0) {
+      el.textContent = remDays + ' days of us';
+      sub.innerHTML = 'just getting started 🌷';
+    } else if (remDays === 0) {
+      el.innerHTML = weeks + (weeks===1?' week':' weeks') + '<br>of us 🎉';
+      sub.innerHTML = 'exactly ' + weeks + (weeks===1?' week':' weeks') + ' today! 🩷';
+    } else {
+      el.innerHTML = weeks + (weeks===1?' week':' weeks') + '<br>& ' + remDays + (remDays===1?' day':' days');
+      sub.innerHTML = 'every single minute has been worth it 🌸';
+    }
   }
-  tick(); setInterval(tick, 1000);
+  updateHeroTitle();
+
+  // ── Counter modes
+  // mode 0: days/hrs/mins/secs  (default, pink)
+  // mode 1: weeks/days/hrs/mins (lavender)
+  // mode 2: total hours / total mins (orange)
+  // mode 3: total minutes (teal, big single card)
+  // mode 4: heartbeats (pink, ~75bpm)
+  const modes = [
+    { label: '⏱ live timer',       cols: 4, theme: null },
+    { label: '📅 weeks & days',     cols: 4, theme: '1' },
+    { label: '🕐 total hours',      cols: 2, theme: '2' },
+    { label: '💌 total minutes',    cols: 1, theme: '3' },
+    { label: '💓 heartbeats shared',cols: 1, theme: '4' },
+  ];
+  let mode = 0;
+
+  const counterEl  = document.getElementById('counter');
+  const modeLbl    = document.createElement('p');
+  modeLbl.className = 'counter-mode-label';
+  counterEl.before(modeLbl);
+
+  function buildCards(defs) {
+    counterEl.innerHTML = '';
+    defs.forEach(([k, l, big]) => {
+      const c = document.createElement('div');
+      c.className = 'counter-card' + (big ? ' big' : '');
+      c.innerHTML = `<span class="num" id="c-${k}">0</span><span class="label">${l}</span>`;
+      counterEl.appendChild(c);
+    });
+  }
+
+  function applyMode() {
+    const m = modes[mode];
+    counterEl.setAttribute('data-mode', m.theme || '');
+    counterEl.className = 'counter-wrap' + (m.cols===2?' two-col':m.cols===1?' one-col':'');
+    modeLbl.textContent = m.label;
+
+    if (mode === 0) buildCards([['d0','days'],['h0','hrs'],['m0','mins'],['s0','secs']]);
+    else if (mode === 1) buildCards([['w1','weeks'],['d1','days'],['h1','hrs'],['m1','mins']]);
+    else if (mode === 2) buildCards([['th2','total hours',true],['tm2','total mins',true]]);
+    else if (mode === 3) buildCards([['tm3','total minutes together',true]]);
+    else if (mode === 4) buildCards([['hb4','heartbeats together 💓',true]]);
+
+    // pop animation
+    counterEl.classList.remove('pop');
+    void counterEl.offsetWidth;
+    counterEl.classList.add('pop');
+  }
+
+  function fmt(n) { return Number(n).toLocaleString(); }
+
+  function tick() {
+    const totalSecs = Math.floor((Date.now() - START) / 1000);
+    if (totalSecs < 0) return;
+
+    const totalMins  = Math.floor(totalSecs / 60);
+    const totalHours = Math.floor(totalSecs / 3600);
+    const totalDays  = Math.floor(totalSecs / 86400);
+    const weeks      = Math.floor(totalDays / 7);
+    const remDays    = totalDays % 7;
+
+    let rem = totalSecs;
+    const dd = Math.floor(rem / 86400); rem %= 86400;
+    const hh = Math.floor(rem / 3600);  rem %= 3600;
+    const mm = Math.floor(rem / 60);
+    const ss = rem % 60;
+
+    const hInDay  = Math.floor((totalSecs % 86400) / 3600);
+    const mInHour = Math.floor((totalSecs % 3600) / 60);
+
+    const pad = n => String(n).padStart(2,'0');
+
+    if (mode === 0) {
+      document.getElementById('c-d0') && (document.getElementById('c-d0').textContent = dd);
+      document.getElementById('c-h0') && (document.getElementById('c-h0').textContent = pad(hh));
+      document.getElementById('c-m0') && (document.getElementById('c-m0').textContent = pad(mm));
+      document.getElementById('c-s0') && (document.getElementById('c-s0').textContent = pad(ss));
+    } else if (mode === 1) {
+      document.getElementById('c-w1') && (document.getElementById('c-w1').textContent = weeks);
+      document.getElementById('c-d1') && (document.getElementById('c-d1').textContent = remDays);
+      document.getElementById('c-h1') && (document.getElementById('c-h1').textContent = pad(hInDay));
+      document.getElementById('c-m1') && (document.getElementById('c-m1').textContent = pad(mInHour));
+    } else if (mode === 2) {
+      document.getElementById('c-th2') && (document.getElementById('c-th2').textContent = fmt(totalHours));
+      document.getElementById('c-tm2') && (document.getElementById('c-tm2').textContent = fmt(totalMins));
+    } else if (mode === 3) {
+      document.getElementById('c-tm3') && (document.getElementById('c-tm3').textContent = fmt(totalMins));
+    } else if (mode === 4) {
+      // avg 75 bpm
+      document.getElementById('c-hb4') && (document.getElementById('c-hb4').textContent = fmt(totalMins * 75));
+    }
+  }
+
+  // init
+  applyMode();
+  tick();
+  setInterval(tick, 1000);
+  setInterval(updateHeroTitle, 60000);
+
+  // ── Tap to change mode
+  document.getElementById('counter').closest('.counter-outer').addEventListener('click', () => {
+    mode = (mode + 1) % modes.length;
+    applyMode();
+    tick();
+  });
 
   // ── Hide home hint if installed
   if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
